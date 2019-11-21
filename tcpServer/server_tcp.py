@@ -63,6 +63,7 @@ while True:
             l = connectionSocket.recv(1024)
         f.close()
         print('Done receiving file')
+        
     elif request_str =='LIST':
         fileList=os.listdir(os.getcwd())
         for file in fileList:

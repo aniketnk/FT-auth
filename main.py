@@ -71,4 +71,4 @@ def hello():
 
 if __name__ == "__main__":
     # portNum = int(input("Communication port: ") or 5000)
-    app.run(port=5002, debug=False)
+    app.run(port=5000, debug=False)

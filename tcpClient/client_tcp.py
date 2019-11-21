@@ -76,7 +76,7 @@ def main():
             f.close()
             print('Done sending')
             input()
-            
+
         elif sentence == 'LIST' :
             file_list = []
             #clientSocket.send("LIST".encode('utf-8'))
