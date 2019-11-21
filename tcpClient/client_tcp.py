@@ -14,14 +14,13 @@ while True:
     clientSocket.connect((serverName,serverPort))
     print('Connected to server.')
 
-    sentence = input('Enter a GET or SEND command: ')
+    sentence = input('Enter a GET or SEND or LIST command: ')
 
     clientSocket.send(sentence.encode('utf-8'))
 
-    fileName = input('\nEnter name of file: ')
-
-    clientSocket.send(fileName.encode('utf-8'))
     if sentence == 'GET':
+        fileName = input('\nEnter name of file: ')
+        clientSocket.send(fileName.encode('utf-8'))
         f = open("dn_" + fileName, "wb")
         print('Receiving file..')
         l = clientSocket.recv(1024)
@@ -43,5 +42,17 @@ while True:
         f.close()
         print('Done sending')
         input()
-
+    elif sentence == 'LIST' :
+        file_list = []
+        #clientSocket.send("LIST".encode('utf-8'))
+        print('Receiving list..')
+        l = clientSocket.recv(1024).decode('utf-8')
+        file_list.append(l)
+        while (l):
+            l = clientSocket.recv(1024).decode('utf-8')
+            file_list.append(l)
+        for i in file_list:
+            print(i.rstrip("\n"))
+        print('Done receiving list')
+        input()
     clientSocket.close()
