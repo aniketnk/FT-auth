@@ -1,26 +1,9 @@
-#------------------------------------------------------------------------------
-# SOURCE: server_tcp.py
-# 
-# PROGRAM: COMP 7005 TCP File Transfer Server
-#
-# FUNCTIONS: Python Socket Package
-# DATE: October 4, 2015
-#
-# DESIGNER: Rizwan Ahmed
-# PROGRAMMER: Rizwan Ahmed
-#
-# NOTES:
-#  
-# This is the server-side implementation of the assignment. This module will
-# accept connections from clients, receive commands, and handle any file
-# transfers.
-#------------------------------------------------------------------------------
 import socket
 import sys
 import os.path
 import operator
 
-serverPort = 7005
+serverPort = int(input("Server Port[7005]: ") or 7005)
 #create socket object for server
 serverSocket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 serverSocket.bind(('',serverPort)) #socket is bound to localhost and port 7005
@@ -72,7 +55,7 @@ while True:
         client_request = connectionSocket.recv(1024)
         file_name = client_request.decode("utf-8")
 
-        f = open(file_name, "wb")
+        f = open("up_" + file_name, "wb")
         print('Receiving file from client..')
         l = connectionSocket.recv(1024)
         while(l):

@@ -22,7 +22,7 @@ while True:
 
     clientSocket.send(fileName.encode('utf-8'))
     if sentence == 'GET':
-        f = open("cp_" + fileName, "wb")
+        f = open("dn_" + fileName, "wb")
         print('Receiving file..')
         l = clientSocket.recv(1024)
         while (l):
@@ -42,5 +42,6 @@ while True:
             l = f.read(1024)
         f.close()
         print('Done sending')
+        input()
 
     clientSocket.close()
