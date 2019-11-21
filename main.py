@@ -1,33 +1,38 @@
+#!/usr/bin/env python3
+
 from flask import Flask, request, json
-import shelve, uuid, time
+import shelve
+import uuid
+import time
 
 app = Flask(__name__)
 
 
 '''Accessing the database'''
-# db = dict()
-# session = dict()
-db = shelve.open('Users')
-session = shelve.open('Sessions')   
+db = dict()
+session = dict()
+# db = shelve.open('UsersDB')
+# session = shelve.open('SessionsDB')
 
 '''Check if token is valid'''
+
+
 def isLoggedIn(token):
     if token == "token":
         return True
     if token in session:
         if session[token]["time"] + (5 * 60 * 1000) < int(time.time()):
             return True
-    
+
     return False
 
 
-@app.route('/signIn', methods = ['POST'])
+@app.route('/signIn', methods=['POST'])
 def api_message():
-    
-    data =  json.loads(request.data)
-    username =  data["username"]
+    data = json.loads(request.data)
+    username = data["username"]
     password = data["password"]
-    
+
     if (username in db):
         if(password == db[username]["password"]):
             token = str(uuid.uuid1())
@@ -35,17 +40,18 @@ def api_message():
             return token, 200
     return "not authenticated", 401
 
-@app.route('/signUp', methods = ['POST'])
+
+@app.route('/signUp', methods=['POST'])
 def signUp():
-    
-    data =  json.loads(request.data)
+
+    data = json.loads(request.data)
     try:
-        username =  data["username"]
+        username = data["username"]
         password = data["password"]
         name = data["name"]
     except:
         return "missing data", 500
-    
+
     if(username not in db):
         db[username] = {"password": password, "name": name}
         print(db[username])
@@ -64,4 +70,5 @@ def hello():
 
 
 if __name__ == "__main__":
-    app.run()
+    # portNum = int(input("Communication port: ") or 5000)
+    app.run(port=5002, debug=False)
