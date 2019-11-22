@@ -66,7 +66,9 @@ def main():
             input()
 
         elif sentence == 'SEND':
+            fileName = input('\nEnter name of file: ')
             f = open(fileName,"rb")
+            clientSocket.send(fileName.encode('utf-8'))
 
             print('Sending file to server...')
             l = f.read(1024)
