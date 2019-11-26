@@ -12,28 +12,37 @@ def doSignIn(cred = False):
 
     if not cred:
         username = input("Username: ") or "user"
+        email = input("Email: ")
         password = input("Password: ") or "password"
-        cred = (username, password)
-    
-    res = requests.post(baseUrl+"/signIn", json={"username": cred[0], "password": cred[1]})
+        cred = (username, email, password)
+    print("Please Wait, generating OTP...")
+    res = requests.post(baseUrl+"/signIn", json={"username": cred[0], "email": cred[1], "password": cred[2]})
     if res.status_code != 200:
         print("Error: ", res.text)
         return False
-
     token = res.text
+
+    userOtp = input("OTP: ")
+
+    # OTP Authentication
+    response = requests.post(baseUrl+"/verifyOtp", json={"otp": userOtp, "token":token, "username": cred[0]})
+    if response.status_code != 200:
+        print("Entered OTP wrong.")
+        return False
     print("SignedIn \n[token: ", token + ']\n(Enter to continue)')
     input()
     return True
 
 def doSignUp():
     username = input("Username: ") or "user"
+    email = input("Email: ")
     password = input("Password: ") or "password"
     name = input("name: ") or "name"
-    res = requests.post(baseUrl+"/signUp", json={"username": username, "password": password, "name": name})
+    res = requests.post(baseUrl+"/signUp", json={"username": username, "email":email, "password": password, "name": name})
     
     # print("SENT\n\n", res, res.text)
     if res.status_code == 200:
-        return (username, password)
+        return (username, email, password)
     
     print("Error:", res.text)
     return False
