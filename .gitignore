@@ -3,3 +3,4 @@ Users
 __pycache__/
 .vscode/
 **.txt
+!requirements.txt
