@@ -4,4 +4,4 @@
 Flask == 1.1.1
 
 # FT-auth/tcpClient/client_tcp.py: 2
-requests == 2.22.0
+requests == 2.31.0
